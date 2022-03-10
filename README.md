@@ -1,2 +1,3 @@
 # base64
-Teradata UDF Base64 です
+このプロジェクトは、Teradata UDF でBase64 のエンコードとデコードを行うため関数作成のためのプロジェクトです。
+
