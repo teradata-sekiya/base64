@@ -6,6 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/TS200019/eclipse-workspace/base64/extJAR/javFnc.jar"/>
+	<classpathentry kind="lib" path="extJAR/javFnc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
