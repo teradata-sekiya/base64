@@ -15,9 +15,9 @@ Javaソースプログラムをコンパイルして任意のフォルダにjar�
 
 	.logon dbc,{パスワード}
 
-## (3)UDF作成権限を付与
-
-	grant EXECUTE PROCEDURE on sqlj to {ターゲットユーザ};
+## (3)UDF権限を付与
+	GRANT EXECUTE PROCEDURE ON sqlj to {ターゲットユーザ};
+	GRANT FUNCTION  ON {ターゲットユーザ} TO {ターゲットユーザ};
 
 ## (4)TeradataのUDFを実行するユーザにログインします
 
