@@ -38,7 +38,7 @@ Javaソースプログラムをコンパイルして任意のフォルダにjar�
 	EXTERNAL NAME 'b64:com.teradata.b64.dec(java.lang.String) returns byte[]';
     
 	replace FUNCTION b64enc(p1 Blob)
-	RETURNS VARCHAR CHARACTER SET LATIN
+	RETURNS LONG VARCHAR CHARACTER SET LATIN
 	LANGUAGE JAVA
 	NO SQL
 	PARAMETER STYLE JAVA
