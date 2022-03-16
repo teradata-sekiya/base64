@@ -1,8 +1,8 @@
 # base64関数作成プロジェクト
 このプロジェクトは、Teradata UDF でBase64 のエンコードとデコードを行うため関数作成のためのプロジェクトです。  
 この関数は以下のサイズのデータを扱えます。
-- バーイナリーデータ 64,000 Byte
-- Base64文字データ 64,000 文字
+- Blob型のバーイナリーデータ 5MB
+- Clob型のBase64文字データ 5MB
 
 ## (1)Jarfileを作成する
 Javaソースプログラムをコンパイルして任意のフォルダにjarファイルをエクスポートします。  
@@ -23,32 +23,36 @@ Javaソースプログラムをコンパイルして任意のフォルダにjar�
 
 	.logon {ターゲットユーザ},{パスワード}
 
-## (5)JarfileをDBにインポートする
+## (5)JarfileをDBからリムーブする。(6)未実施の場合はスキップしてください。
+	CALL SQLJ.REMOVE_JAR('b64', 0); 
+
+## (6)JarfileをDBにインポートする
 
 	CALL SQLJ.INSTALL_JAR('CJ!C:/temp/base64.jar', 'b64', 0); 
 
-## (6)UDF関数を定義する
+## (7)UDF関数を定義する
 
-	replace FUNCTION b64dec(p1 long VARCHAR CHARACTER SET LATIN)
-	RETURNS varbyte(64000)
+	replace FUNCTION b64dec(p1 Clob(5m))
+	RETURNS Blob(5m)
 	LANGUAGE JAVA
 	NO SQL
 	PARAMETER STYLE JAVA
 	RETURNS NULL ON NULL INPUT
-	EXTERNAL NAME 'b64:com.teradata.b64.dec(java.lang.String) returns byte[]';
-    
-	replace FUNCTION b64enc(p1 Blob)
-	RETURNS LONG VARCHAR CHARACTER SET LATIN
+	EXTERNAL NAME 'b64:com.teradata.b64.dec(java.sql.Clob) returns java.sql.Blob';
+
+
+	replace FUNCTION b64enc(p1 Blob(5m))
+	RETURNS Clob(5m)
 	LANGUAGE JAVA
 	NO SQL
 	PARAMETER STYLE JAVA
 	RETURNS NULL ON NULL INPUT
-	EXTERNAL NAME 'b64:com.teradata.b64.enc(java.sql.Blob) returns java.lang.String';
+	EXTERNAL NAME 'b64:com.teradata.b64.enc(java.sql.Blob) returns java.sql.Clob';
 
 
-## (6)UDF関数の実行方法。
-### (6.1)Base64文字列をデコードします
-	select b64dec({Base64文字列});
+## (8)UDF関数の実行方法。
+### (8.1)Base64文字列をデコードします
+	select b64dec({Clob型のBase64文字});
 
-### (6.2)Base64文字列にエンコードします
-	select b64enc({バイナリーデータ});
+### (8.2)Base64文字列にエンコードします
+	select b64enc({Blob型のバイナリ});
